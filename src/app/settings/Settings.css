@@ -1,0 +1,60 @@
+.kv-settings__providers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+  margin-bottom: var(--kova-space-3);
+}
+
+.kv-settings__provider {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--kova-space-3) var(--kova-space-4);
+  border-radius: var(--kova-radius-control);
+  border: 1px solid var(--kova-border);
+  background: var(--kova-surface-raised);
+  transition: border-color var(--kova-dur-fast) var(--kova-ease);
+}
+
+.kv-settings__provider.is-active {
+  border-color: var(--kova-progress);
+  background: var(--kova-progress-faint);
+}
+
+.kv-settings__provider-name {
+  font-weight: 600;
+  color: var(--kova-text-primary);
+}
+
+.kv-settings__health {
+  display: flex;
+  align-items: center;
+  gap: var(--kova-space-3);
+}
+
+.kv-settings__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--kova-space-2);
+  cursor: pointer;
+  color: var(--kova-text-secondary);
+  font-size: var(--kova-size-caption);
+}
+
+.kv-settings__toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--kova-progress);
+}
+
+.kv-settings__data-actions {
+  display: flex;
+  gap: var(--kova-space-2);
+  flex-wrap: wrap;
+}
+
+.kv-settings__audit-entry {
+  padding: var(--kova-space-3) 0;
+  border-bottom: 1px solid var(--kova-border);
+}

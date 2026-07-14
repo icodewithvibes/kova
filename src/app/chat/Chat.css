@@ -1,0 +1,84 @@
+.kv-chat {
+  min-height: calc(100dvh - var(--kova-tabbar-height) - var(--kova-space-8) - var(--kova-space-5));
+  display: flex;
+  flex-direction: column;
+}
+
+.kv-chat__scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-3);
+  overflow-y: auto;
+  padding-bottom: var(--kova-space-3);
+}
+
+.kv-chat__bubble {
+  max-width: 88%;
+  border-radius: 18px;
+  padding: var(--kova-space-3) var(--kova-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-3);
+}
+
+.kv-chat__bubble--user {
+  align-self: flex-end;
+  background: var(--kova-surface-raised);
+  border: 1px solid var(--kova-border);
+  border-bottom-right-radius: 6px;
+}
+
+.kv-chat__bubble--kova {
+  align-self: flex-start;
+  background: var(--kova-surface);
+  border: 1px solid var(--kova-border);
+  border-bottom-left-radius: 6px;
+}
+
+.kv-chat__body {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.kv-chat__card {
+  padding: var(--kova-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+}
+
+.kv-chat__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kova-space-2);
+}
+
+.kv-chat__basedon-list {
+  list-style: none;
+  padding: var(--kova-space-2) var(--kova-space-3);
+  margin-top: var(--kova-space-1);
+  border-left: 2px solid var(--kova-border-strong);
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-1);
+}
+
+.kv-chat__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kova-space-2);
+  padding: var(--kova-space-3) 0;
+}
+
+.kv-chat__composer {
+  display: flex;
+  gap: var(--kova-space-2);
+  padding-top: var(--kova-space-3);
+  position: sticky;
+  bottom: 0;
+}
+
+.kv-chat__composer .kv-input {
+  flex: 1;
+}

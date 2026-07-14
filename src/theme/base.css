@@ -1,0 +1,114 @@
+/* Base styles: reset, typography, focus, motion preferences. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--kova-bg);
+  color: var(--kova-text-primary);
+  font-family: var(--kova-font);
+  font-size: var(--kova-size-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+p {
+  line-height: 1.5;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+/* Every money value aligns and never jitters. */
+.kv-num,
+[data-money] {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Visible, designed focus — part of the premium interface. */
+:focus-visible {
+  outline: 2px solid var(--kova-metal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--kova-progress-dim);
+  color: var(--kova-text-primary);
+}
+
+/* Screen-reader-only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Quiet scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kova-surface-overlay) transparent;
+}

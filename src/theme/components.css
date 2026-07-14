@@ -1,0 +1,285 @@
+/* Kova primitive component classes — the small design system. */
+
+/* ---------- Cards ---------- */
+.kv-card {
+  background: var(--kova-surface);
+  border: 1px solid var(--kova-border);
+  border-radius: var(--kova-radius-card);
+  padding: var(--kova-space-5);
+  box-shadow: var(--kova-shadow-1);
+}
+
+.kv-card--raised {
+  background: var(--kova-surface-raised);
+  border-color: var(--kova-border-strong);
+}
+
+.kv-card--hero {
+  border-radius: var(--kova-radius-card-lg);
+  padding: var(--kova-space-6);
+}
+
+/* ---------- Buttons ---------- */
+.kv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kova-space-2);
+  min-height: var(--kova-touch-target);
+  padding: 0 var(--kova-space-5);
+  border-radius: var(--kova-radius-control);
+  font-size: var(--kova-size-body);
+  font-weight: 500;
+  transition:
+    background var(--kova-dur-fast) var(--kova-ease),
+    transform var(--kova-dur-fast) var(--kova-ease),
+    opacity var(--kova-dur-fast) var(--kova-ease);
+  text-decoration: none;
+}
+
+.kv-btn:active {
+  transform: scale(0.98);
+}
+
+.kv-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.kv-btn--primary {
+  background: linear-gradient(180deg, #eceef1 0%, var(--kova-metal) 100%);
+  color: #0b0c0e;
+  font-weight: 600;
+}
+
+.kv-btn--primary:hover:not(:disabled) {
+  background: #f4f5f7;
+}
+
+.kv-btn--secondary {
+  background: var(--kova-surface-raised);
+  border: 1px solid var(--kova-border);
+  color: var(--kova-text-primary);
+}
+
+.kv-btn--secondary:hover:not(:disabled) {
+  background: var(--kova-surface-overlay);
+}
+
+.kv-btn--ghost {
+  color: var(--kova-text-secondary);
+  min-height: 36px;
+  padding: 0 var(--kova-space-3);
+}
+
+.kv-btn--ghost:hover:not(:disabled) {
+  color: var(--kova-text-primary);
+  background: var(--kova-surface-raised);
+}
+
+.kv-btn--danger {
+  background: var(--kova-critical-faint);
+  border: 1px solid rgba(242, 123, 123, 0.35);
+  color: var(--kova-critical);
+}
+
+.kv-btn--sm {
+  min-height: 36px;
+  padding: 0 var(--kova-space-4);
+  font-size: var(--kova-size-caption);
+  border-radius: 10px;
+}
+
+/* ---------- Chips / badges ---------- */
+.kv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kova-space-1);
+  padding: 3px 10px;
+  border-radius: var(--kova-radius-chip);
+  font-size: var(--kova-size-micro);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--kova-border);
+  color: var(--kova-text-secondary);
+  background: var(--kova-surface-raised);
+  white-space: nowrap;
+}
+
+.kv-chip--attention {
+  background: var(--kova-attention-faint);
+  border-color: rgba(229, 184, 106, 0.35);
+  color: var(--kova-attention);
+}
+
+.kv-chip--progress {
+  background: var(--kova-progress-faint);
+  border-color: rgba(143, 206, 173, 0.3);
+  color: var(--kova-progress);
+}
+
+.kv-chip--critical {
+  background: var(--kova-critical-faint);
+  border-color: rgba(242, 123, 123, 0.3);
+  color: var(--kova-critical);
+}
+
+.kv-chip--interactive {
+  cursor: pointer;
+  min-height: 28px;
+  transition: background var(--kova-dur-fast) var(--kova-ease);
+}
+
+.kv-chip--interactive:hover {
+  background: var(--kova-surface-overlay);
+}
+
+/* ---------- Inputs ---------- */
+.kv-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+}
+
+.kv-label {
+  font-size: var(--kova-size-caption);
+  color: var(--kova-text-secondary);
+  font-weight: 500;
+}
+
+.kv-input {
+  background: var(--kova-surface-raised);
+  border: 1px solid var(--kova-border);
+  border-radius: var(--kova-radius-input);
+  min-height: var(--kova-touch-target);
+  padding: 0 var(--kova-space-4);
+  color: var(--kova-text-primary);
+  transition: border-color var(--kova-dur-fast) var(--kova-ease);
+  width: 100%;
+}
+
+textarea.kv-input {
+  padding: var(--kova-space-3) var(--kova-space-4);
+  resize: vertical;
+  min-height: 88px;
+}
+
+.kv-input::placeholder {
+  color: var(--kova-text-muted);
+}
+
+.kv-input:focus {
+  border-color: var(--kova-border-strong);
+  outline: none;
+}
+
+.kv-input:focus-visible {
+  outline: 2px solid var(--kova-metal);
+  outline-offset: 1px;
+}
+
+.kv-input--attention {
+  border-bottom: 2px solid var(--kova-attention);
+}
+
+/* ---------- Text helpers ---------- */
+.kv-title {
+  font-size: var(--kova-size-title);
+  font-weight: 600;
+}
+
+.kv-heading {
+  font-size: var(--kova-size-heading);
+  font-weight: 600;
+}
+
+.kv-caption {
+  font-size: var(--kova-size-caption);
+  color: var(--kova-text-secondary);
+}
+
+.kv-micro {
+  font-size: var(--kova-size-micro);
+  color: var(--kova-text-muted);
+}
+
+/* ---------- Money display ---------- */
+.kv-money {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.kv-money__currency {
+  color: var(--kova-text-secondary);
+  font-weight: 400;
+}
+
+.kv-money__cents {
+  font-weight: 400;
+  font-size: 0.7em;
+  color: var(--kova-text-secondary);
+}
+
+/* ---------- Progress track ---------- */
+.kv-track {
+  height: 6px;
+  background: var(--kova-surface-overlay);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.kv-track__fill {
+  height: 100%;
+  background: var(--kova-progress);
+  border-radius: 3px;
+  transition: width var(--kova-dur-slow) var(--kova-ease);
+}
+
+/* ---------- List rows ---------- */
+.kv-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kova-space-3);
+  min-height: var(--kova-touch-target);
+  padding: var(--kova-space-3) 0;
+}
+
+.kv-row + .kv-row {
+  border-top: 1px solid var(--kova-border);
+}
+
+/* ---------- Dividers ---------- */
+.kv-divider {
+  border: none;
+  border-top: 1px solid var(--kova-border);
+  margin: var(--kova-space-4) 0;
+}
+
+/* ---------- Skeletons ---------- */
+.kv-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--kova-surface-raised) 25%,
+    var(--kova-surface-overlay) 50%,
+    var(--kova-surface-raised) 75%
+  );
+  background-size: 200% 100%;
+  animation: kv-shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+
+@keyframes kv-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------- Financial-content disclaimer footer ---------- */
+.kv-disclaimer {
+  font-size: var(--kova-size-micro);
+  color: var(--kova-text-muted);
+  line-height: 1.5;
+  padding: var(--kova-space-3) 0;
+}

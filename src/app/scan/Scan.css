@@ -1,0 +1,138 @@
+.kv-scan__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-3);
+}
+
+.kv-scan__option {
+  display: flex;
+  align-items: center;
+  gap: var(--kova-space-4);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--kova-dur-fast) var(--kova-ease);
+}
+
+.kv-scan__option:hover {
+  background: var(--kova-surface-raised);
+}
+
+.kv-scan__option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--kova-radius-control);
+  background: var(--kova-surface-raised);
+  border: 1px solid var(--kova-border);
+  color: var(--kova-metal);
+  flex-shrink: 0;
+}
+
+.kv-scan__option-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+/* Processing state — scanning a stylized synthetic document */
+.kv-scan__processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kova-space-4);
+  padding-top: var(--kova-space-10);
+  text-align: center;
+}
+
+.kv-scan__doc {
+  position: relative;
+  width: 190px;
+  height: 250px;
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(
+      var(--kova-surface-raised) 0 10px,
+      transparent 10px 26px
+    ),
+    var(--kova-surface);
+  border: 1px solid var(--kova-border-strong);
+  overflow: hidden;
+}
+
+.kv-scan__doc-line {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 8%;
+  height: 2px;
+  background: var(--kova-progress);
+  box-shadow: 0 0 12px rgba(143, 206, 173, 0.55);
+  border-radius: 1px;
+}
+
+/* Review */
+.kv-scan__banner {
+  background: var(--kova-attention-faint);
+  border: 1px solid rgba(229, 184, 106, 0.35);
+  border-radius: var(--kova-radius-control);
+  padding: var(--kova-space-4);
+  font-size: var(--kova-size-caption);
+  color: var(--kova-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+}
+
+.kv-scan__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-4);
+}
+
+.kv-scan__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+}
+
+.kv-scan__field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kova-space-2);
+  flex-wrap: wrap;
+}
+
+.kv-scan__field-input {
+  position: relative;
+}
+
+.kv-scan__prefix {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--kova-text-muted);
+  pointer-events: none;
+}
+
+.kv-scan__field-input:has(.kv-scan__prefix) .kv-input,
+.kv-scan__prefix + .kv-input {
+  padding-left: 30px;
+}
+
+/* Confirmed reveal */
+.kv-scan__reveal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-5);
+}
+
+.kv-scan__reveal .kv-card--hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+  align-items: flex-start;
+}

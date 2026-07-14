@@ -1,0 +1,94 @@
+.kv-onboarding {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--kova-space-5) var(--kova-space-4) var(--kova-space-8);
+  display: flex;
+  flex-direction: column;
+}
+
+.kv-onboarding__top {
+  display: flex;
+  align-items: center;
+  gap: var(--kova-space-3);
+  min-height: 44px;
+  margin-bottom: var(--kova-space-6);
+}
+
+.kv-onboarding__progress {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--kova-surface-overlay);
+  overflow: hidden;
+}
+
+.kv-onboarding__progress-fill {
+  height: 100%;
+  background: var(--kova-progress);
+  border-radius: 2px;
+  transition: width var(--kova-dur-slow) var(--kova-ease);
+}
+
+.kv-onboarding__brand {
+  letter-spacing: 0.16em;
+  color: var(--kova-metal);
+  font-weight: 600;
+  margin-bottom: var(--kova-space-2);
+}
+
+.kv-onboarding__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-5);
+}
+
+.kv-onboarding__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+}
+
+.kv-onboarding__option {
+  text-align: left;
+  padding: var(--kova-space-4);
+  min-height: var(--kova-touch-target);
+  border-radius: var(--kova-radius-control);
+  border: 1px solid var(--kova-border);
+  background: var(--kova-surface);
+  color: var(--kova-text-primary);
+  font-size: 15px;
+  transition:
+    border-color var(--kova-dur-fast) var(--kova-ease),
+    background var(--kova-dur-fast) var(--kova-ease);
+}
+
+.kv-onboarding__option:hover {
+  background: var(--kova-surface-raised);
+}
+
+.kv-onboarding__option.is-selected {
+  border-color: var(--kova-progress);
+  background: var(--kova-progress-faint);
+}
+
+.kv-onboarding__row {
+  display: flex;
+  gap: var(--kova-space-2);
+  flex-wrap: wrap;
+}
+
+.kv-onboarding__reveal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-5);
+  padding-top: var(--kova-space-10);
+  text-align: center;
+}
+
+.kv-onboarding__reveal-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-3);
+  align-items: center;
+}

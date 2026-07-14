@@ -1,0 +1,72 @@
+.kv-plan__attention {
+  background: var(--kova-attention-faint);
+  border: 1px solid rgba(229, 184, 106, 0.35);
+  border-radius: var(--kova-radius-control);
+  padding: var(--kova-space-4);
+}
+
+.kv-plan__timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--kova-space-2);
+}
+
+.kv-plan__reasons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+}
+
+.kv-plan__reason {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--kova-space-3);
+  align-items: baseline;
+}
+
+.kv-plan__reason .kv-micro {
+  text-align: right;
+}
+
+.kv-plan__scenario-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--kova-space-2);
+  margin-bottom: var(--kova-space-4);
+}
+
+.kv-plan__scenario-tab {
+  min-height: 40px;
+  border-radius: var(--kova-radius-control);
+  border: 1px solid var(--kova-border);
+  background: var(--kova-surface-raised);
+  color: var(--kova-text-secondary);
+  font-size: var(--kova-size-caption);
+  font-weight: 500;
+  transition:
+    border-color var(--kova-dur-fast) var(--kova-ease),
+    color var(--kova-dur-fast) var(--kova-ease),
+    background var(--kova-dur-fast) var(--kova-ease);
+}
+
+.kv-plan__scenario-tab.is-active {
+  border-color: var(--kova-progress);
+  background: var(--kova-progress-faint);
+  color: var(--kova-text-primary);
+}
+
+.kv-plan__scenario-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.kv-plan__explain-list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--kova-space-2);
+  color: var(--kova-text-secondary);
+  font-size: var(--kova-size-caption);
+}

@@ -1,0 +1,79 @@
+/* Kova design tokens — single source of truth.
+   Dark-only in MVP, but everything routes through variables so a light
+   theme remains possible later. Semantic rules:
+   - mint (--kova-progress) ONLY for progress / safe / confirmed money
+   - amber (--kova-attention) ONLY for needs-review / attention, never shame
+   - red (--kova-critical) ONLY for true errors
+   - max one accent per screen region */
+:root {
+  /* Surfaces */
+  --kova-bg: #090a0b;
+  --kova-surface: #141619;
+  --kova-surface-raised: #1b1e22;
+  --kova-surface-overlay: #22252b;
+
+  /* Text */
+  --kova-text-primary: #f4f5f6;
+  --kova-text-secondary: #a6abb2;
+  --kova-text-muted: #717780;
+
+  /* Lines */
+  --kova-border: rgba(255, 255, 255, 0.1);
+  --kova-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Semantic accents */
+  --kova-progress: #8fcead;
+  --kova-progress-dim: #3e6b5b;
+  --kova-progress-faint: rgba(143, 206, 173, 0.12);
+  --kova-attention: #e5b86a;
+  --kova-attention-faint: rgba(229, 184, 106, 0.12);
+  --kova-critical: #f27b7b;
+  --kova-critical-faint: rgba(242, 123, 123, 0.1);
+  --kova-metal: #d8dadf;
+
+  /* Dark glass — floating nav, sheets, modals ONLY */
+  --kova-glass: rgba(20, 22, 25, 0.82);
+  --kova-glass-blur: 18px;
+
+  /* Type scale (px) */
+  --kova-font:
+    "Inter Variable", "SF Pro Text", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --kova-size-display: 40px;
+  --kova-size-title: 28px;
+  --kova-size-heading: 21px;
+  --kova-size-body: 16px;
+  --kova-size-caption: 13px;
+  --kova-size-micro: 11px;
+
+  /* Shape */
+  --kova-radius-card: 22px;
+  --kova-radius-card-lg: 28px;
+  --kova-radius-control: 14px;
+  --kova-radius-input: 12px;
+  --kova-radius-chip: 999px;
+
+  /* Space (4pt grid) */
+  --kova-space-1: 4px;
+  --kova-space-2: 8px;
+  --kova-space-3: 12px;
+  --kova-space-4: 16px;
+  --kova-space-5: 20px;
+  --kova-space-6: 24px;
+  --kova-space-8: 32px;
+  --kova-space-10: 40px;
+
+  /* Elevation — soft layered shadows + surface lightening */
+  --kova-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.28);
+  --kova-shadow-2: 0 2px 4px rgba(0, 0, 0, 0.45), 0 12px 32px rgba(0, 0, 0, 0.38);
+
+  /* Motion */
+  --kova-dur-fast: 180ms;
+  --kova-dur-med: 240ms;
+  --kova-dur-slow: 280ms;
+  --kova-ease: cubic-bezier(0.32, 0.72, 0.28, 1);
+
+  /* Layout */
+  --kova-tabbar-height: 76px;
+  --kova-content-max: 480px;
+  --kova-touch-target: 44px;
+}
