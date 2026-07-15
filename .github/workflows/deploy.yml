@@ -28,6 +28,10 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /kova/
+          # Ollama support in the hosted build: talks only to the visitor's own
+          # localhost daemon; falls back to Demo Mode with a visible notice.
+          VITE_FEATURE_OLLAMA: "true"
+          VITE_OLLAMA_MODEL: gpt-oss:120b-cloud
       # SPA fallback: GitHub Pages serves 404.html for unknown paths,
       # which lets deep links (e.g. /kova/plan) load the app.
       - run: cp dist/index.html dist/404.html

@@ -2,6 +2,9 @@
 
 **Every paycheck, already planned.**
 
+**Live demo:** https://icodewithvibes.github.io/kova/ (runs fully in the browser — synthetic
+demo data, nothing leaves your device; local/cloud Ollama is optional and off unless you run it).
+
 Kova is a premium, privacy-first paycheck planning app for people with hourly, weekly, biweekly,
 tipped, or irregular income. Scan or enter a paycheck, and Kova protects bills, buffer, and goals
 first — then shows exactly what's safe to spend until the next payday.
