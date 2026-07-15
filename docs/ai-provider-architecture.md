@@ -48,9 +48,17 @@ outcome land in `ai_action_audit_logs`.
   (keys must never ship to the browser) — `VITE_CLOUD_AI_BASE_URL` points at that proxy, gated by
   `VITE_FEATURE_CLOUD`. Intended vendor per decision D8: Anthropic Claude (Haiku for
   classification, Sonnet for chat).
-- **OllamaProviderStub**: gated by `VITE_FEATURE_OLLAMA` + owner-approved installation
-  (commands live in `local-ai-plan.md` §8 and are NOT run by this build). Target models: Qwen3 8B
-  (chat/tools), Qwen2.5-VL 7B (vision verify), nomic-embed-text (embeddings).
+- **OllamaProvider** (`src/ai/ollamaProvider.ts`, shipping — owner approved the install
+  2026-07-14): real client over the Ollama HTTP API, gated by `VITE_FEATURE_OLLAMA`.
+  Structured outputs use Ollama's decoder-level `format` schema derived from the SAME zod
+  schemas via `toOllamaFormat()` — which strips `oneOf`→`anyOf`, `pattern`, and
+  `minLength`/`maxLength` because llama.cpp's grammar compiler rejects them (verified against
+  Ollama 0.32.0); zod still enforces those app-side. Model via `VITE_OLLAMA_MODEL`
+  (default `qwen3:8b`, local). Models ending in `-cloud` execute on **Ollama Cloud**
+  (free tier with usage limits) through the local daemon after the user runs `ollama signin` —
+  Kova's requests are identical either way: structured summaries only, never documents.
+  Hardware note: this machine's AMD RX 6600 XT is below Ollama's supported GPU line, so local
+  inference is CPU-bound (~32 GB RAM handles 8B Q4); cloud models avoid that entirely.
 
 ## Memory rules
 

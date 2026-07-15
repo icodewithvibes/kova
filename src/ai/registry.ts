@@ -3,6 +3,7 @@
  * substitution. Env flags gate cloud/local; mock is always available.
  */
 import { MockProvider } from "./mockProvider";
+import { OllamaProvider } from "./ollamaProvider";
 import { CloudProviderStub, OllamaProviderStub, type AIProvider, type ProviderKind } from "./provider";
 
 export interface EnvConfig {
@@ -11,6 +12,7 @@ export interface EnvConfig {
   cloudBaseUrl: string | undefined;
   ollamaEnabled: boolean;
   ollamaBaseUrl: string | undefined;
+  ollamaModel: string;
 }
 
 export function readEnvConfig(): EnvConfig {
@@ -25,6 +27,7 @@ export function readEnvConfig(): EnvConfig {
     cloudBaseUrl: env.VITE_CLOUD_AI_BASE_URL || undefined,
     ollamaEnabled: env.VITE_FEATURE_OLLAMA === "true",
     ollamaBaseUrl: env.VITE_OLLAMA_BASE_URL || undefined,
+    ollamaModel: env.VITE_OLLAMA_MODEL || "qwen3:8b",
   };
 }
 
@@ -35,14 +38,19 @@ export function getProvider(kind: ProviderKind, env: EnvConfig = readEnvConfig()
     case "cloud":
       return new CloudProviderStub(env.cloudBaseUrl);
     case "ollama":
-      return new OllamaProviderStub(env.ollamaBaseUrl, env.ollamaEnabled);
+      return env.ollamaEnabled
+        ? new OllamaProvider({
+            baseUrl: env.ollamaBaseUrl ?? "http://localhost:11434",
+            model: env.ollamaModel,
+          })
+        : new OllamaProviderStub(env.ollamaBaseUrl, false);
     case "mock":
       return mock;
   }
 }
 
 export function allProviders(env: EnvConfig = readEnvConfig()): AIProvider[] {
-  return [mock, new CloudProviderStub(env.cloudBaseUrl), new OllamaProviderStub(env.ollamaBaseUrl, env.ollamaEnabled)];
+  return [mock, getProvider("cloud", env), getProvider("ollama", env)];
 }
 
 /** Active provider with health check; falls back to mock with an explanation. */

@@ -8,11 +8,7 @@ import { fromIso } from "@/domain/payPeriod";
 import { validateChatReply } from "@/ai/actions";
 import { resolveActiveProvider } from "@/ai/registry";
 import type { KovaContext } from "@/ai/schemas";
-import {
-  selectCurrentPlan,
-  selectSafeToSpend,
-  useAppStore,
-} from "@/store/appStore";
+import { selectCurrentPlan, selectSafeToSpend, useAppStore } from "@/store/appStore";
 import type { ChatMessageRecord } from "@/data/schema";
 import { AmountDisplay } from "@/components/AmountDisplay";
 import { ProgressBar } from "@/components/ProgressBar";
@@ -57,7 +53,12 @@ export function ChatScreen() {
       recentExpenses: plan
         ? state.expenses
             .filter((e) => e.date >= plan.payDate && e.date <= plan.nextPayDate)
-            .map((e) => ({ label: e.label, amount: e.amount, date: e.date, ...(e.category ? { category: e.category } : {}) }))
+            .map((e) => ({
+              label: e.label,
+              amount: e.amount,
+              date: e.date,
+              ...(e.category ? { category: e.category } : {}),
+            }))
         : [],
       payFrequency: state.paySchedule?.frequency ?? null,
       anchorPayDate: state.paySchedule?.anchorPayDate ?? null,
@@ -70,43 +71,55 @@ export function ChatScreen() {
     if (!trimmed || busy) return;
     setBusy(true);
     setInput("");
-    await appendChatMessage({ threadId: THREAD_ID, role: "user", body: trimmed });
+    try {
+      await appendChatMessage({ threadId: THREAD_ID, role: "user", body: trimmed });
 
-    const preferred = state.providerConfig?.provider ?? "mock";
-    const { provider, fallbackNotice: notice } = await resolveActiveProvider(preferred);
-    setFallbackNotice(notice);
+      const preferred = state.providerConfig?.provider ?? "mock";
+      const { provider, fallbackNotice: notice } = await resolveActiveProvider(preferred);
+      setFallbackNotice(notice);
 
-    const raw = await provider.chat(trimmed, context);
-    const { reply, valid } = validateChatReply(raw);
-    if (!valid) {
-      await useAppStore.getState().logAudit({
-        kind: "chat_reply_rejected",
-        summary: "A chat reply failed schema validation and was replaced with a safe fallback.",
-        payload: "{}",
-        outcome: "rejected_invalid",
-        provider: provider.kind,
-      });
+      let raw: unknown;
+      try {
+        raw = await provider.chat(trimmed, context);
+      } catch (e) {
+        // Provider failure is a fact the user should see, never a frozen UI.
+        setFallbackNotice(
+          `${provider.label} couldn't answer (${e instanceof Error ? e.message.slice(0, 120) : "request failed"}). Your plan is unchanged.`,
+        );
+        raw = null; // validateChatReply turns this into the safe fallback reply.
+      }
+      const { reply, valid } = validateChatReply(raw);
+      if (!valid) {
+        await useAppStore.getState().logAudit({
+          kind: "chat_reply_rejected",
+          summary: "A chat reply failed or didn't validate; a safe fallback was shown instead.",
+          payload: "{}",
+          outcome: "rejected_invalid",
+          provider: provider.kind,
+        });
+      }
+
+      const outgoing: Omit<ChatMessageRecord, "id" | "userId" | "createdAt"> = {
+        threadId: THREAD_ID,
+        role: "kova",
+        body: reply.body,
+      };
+      // Validated by chatReplySchema (bounded integer cents), so the brand cast is sound.
+      if (reply.card) outgoing.card = reply.card as NonNullable<ChatMessageRecord["card"]>;
+      if (reply.actions) {
+        outgoing.actions = reply.actions.map((a, i) => ({
+          id: `act_${Date.now()}_${i}`,
+          label: a.label,
+          kind: a.kind,
+          ...("payload" in a ? { payload: a.payload } : {}),
+          state: "offered" as const,
+        }));
+      }
+      if (reply.basedOn) outgoing.basedOn = reply.basedOn;
+      await appendChatMessage(outgoing);
+    } finally {
+      setBusy(false);
     }
-
-    const outgoing: Omit<ChatMessageRecord, "id" | "userId" | "createdAt"> = {
-      threadId: THREAD_ID,
-      role: "kova",
-      body: reply.body,
-    };
-    // Validated by chatReplySchema (bounded integer cents), so the brand cast is sound.
-    if (reply.card) outgoing.card = reply.card as NonNullable<ChatMessageRecord["card"]>;
-    if (reply.actions) {
-      outgoing.actions = reply.actions.map((a, i) => ({
-        id: `act_${Date.now()}_${i}`,
-        label: a.label,
-        kind: a.kind,
-        ...("payload" in a ? { payload: a.payload } : {}),
-        state: "offered" as const,
-      }));
-    }
-    if (reply.basedOn) outgoing.basedOn = reply.basedOn;
-    await appendChatMessage(outgoing);
-    setBusy(false);
   }
 
   return (
@@ -133,7 +146,11 @@ export function ChatScreen() {
         ))}
         {busy && (
           <div className="kv-chat__bubble kv-chat__bubble--kova">
-            <div className="kv-skeleton" style={{ width: 160, height: 14 }} aria-label="Kova is thinking" />
+            <div
+              className="kv-skeleton"
+              style={{ width: 160, height: 14 }}
+              aria-label="Kova is thinking"
+            />
           </div>
         )}
         <div ref={endRef} />
@@ -163,7 +180,12 @@ export function ChatScreen() {
           placeholder="Ask about spending, goals, or your plan…"
           aria-label="Message Kova"
         />
-        <button className="kv-btn kv-btn--primary" type="submit" disabled={busy || input.trim() === ""} aria-label="Send">
+        <button
+          className="kv-btn kv-btn--primary"
+          type="submit"
+          disabled={busy || input.trim() === ""}
+          aria-label="Send"
+        >
           <Send size={16} aria-hidden="true" />
         </button>
       </form>
@@ -197,7 +219,10 @@ function ChatBubble({ msg }: { msg: ChatMessageRecord }) {
             <ChevronDown
               size={13}
               aria-hidden="true"
-              style={{ transform: basedOnOpen ? "rotate(180deg)" : undefined, transition: "transform 180ms" }}
+              style={{
+                transform: basedOnOpen ? "rotate(180deg)" : undefined,
+                transition: "transform 180ms",
+              }}
             />
             Based on
           </button>
@@ -225,7 +250,9 @@ function ChatCardView({ card }: { card: NonNullable<ChatMessageRecord["card"]> }
           <AmountDisplay amount={card.amount} size={15} />
         </div>
         <div className="kv-row">
-          <span className="kv-caption">{card.fits ? "Safe to spend after" : "Flexible money available"}</span>
+          <span className="kv-caption">
+            {card.fits ? "Safe to spend after" : "Flexible money available"}
+          </span>
           <AmountDisplay amount={card.after} size={15} />
         </div>
         <p className="kv-micro">Until {format(fromIso(card.until), "EEEE, MMMM d")}</p>
@@ -244,7 +271,9 @@ function ChatCardView({ card }: { card: NonNullable<ChatMessageRecord["card"]> }
         </div>
         <ProgressBar fraction={fraction} label={`${card.name} progress`} />
         {card.forecastDate && (
-          <p className="kv-micro">On track for {format(fromIso(card.forecastDate), "MMMM d, yyyy")}</p>
+          <p className="kv-micro">
+            On track for {format(fromIso(card.forecastDate), "MMMM d, yyyy")}
+          </p>
         )}
       </div>
     );
@@ -279,7 +308,11 @@ function ChatActions({
     const s = store.getState();
     switch (action.kind) {
       case "log_expense": {
-        const p = action.payload as { label: string; amount: { amount: number; currency: "USD" }; date: string };
+        const p = action.payload as {
+          label: string;
+          amount: { amount: number; currency: "USD" };
+          date: string;
+        };
         await s.logExpense(p.label, usd(p.amount.amount), p.date, true);
         break;
       }
@@ -309,7 +342,10 @@ function ChatActions({
         break;
       }
       case "adjust_goal": {
-        const p = action.payload as { goalId: string; perCheckContribution: { amount: number; currency: "USD" } };
+        const p = action.payload as {
+          goalId: string;
+          perCheckContribution: { amount: number; currency: "USD" };
+        };
         await s.updateGoal(p.goalId, {
           perCheckContribution: usd(p.perCheckContribution.amount),
         });
@@ -337,7 +373,11 @@ function ChatActions({
       case "keep_plan":
         break;
     }
-    await s.markChatActionState(messageId, action.id, action.kind === "keep_plan" ? "dismissed" : "approved");
+    await s.markChatActionState(
+      messageId,
+      action.id,
+      action.kind === "keep_plan" ? "dismissed" : "approved",
+    );
     setConfirming(null);
   }
 
@@ -357,7 +397,11 @@ function ChatActions({
           </button>
         ))}
       </div>
-      <Sheet open={confirming !== null} onClose={() => setConfirming(null)} title="Confirm this change?">
+      <Sheet
+        open={confirming !== null}
+        onClose={() => setConfirming(null)}
+        title="Confirm this change?"
+      >
         {confirming && (
           <>
             <p className="kv-caption">
