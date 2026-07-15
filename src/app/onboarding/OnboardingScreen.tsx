@@ -7,7 +7,10 @@ import type { PayFrequency } from "@/domain/types";
 import { useAppStore, type OnboardingAnswers } from "@/store/appStore";
 import { AmountDisplay } from "@/components/AmountDisplay";
 import { Disclaimer } from "@/components/Disclaimer";
+import { KovaWordmark } from "@/components/KovaMark";
 import "./Onboarding.css";
+
+const BASE = import.meta.env.BASE_URL;
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -119,7 +122,17 @@ export function OnboardingScreen() {
         <motion.section key={step} className="kv-onboarding__step" {...stepMotion}>
           {step === 0 && (
             <>
-              <p className="kv-onboarding__brand">kova</p>
+              <div className="kv-onboarding__brand">
+                <KovaWordmark markSize={26} />
+              </div>
+              <img
+                className="kv-onboarding__hero-art"
+                src={`${BASE}brand/hero-vessel.webp`}
+                alt=""
+                role="presentation"
+                width={1344}
+                height={892}
+              />
               <h1 className="kv-title">Every paycheck, already planned.</h1>
               <p className="kv-caption">
                 Kova keeps your bills and goals protected, then shows what you can spend safely
@@ -391,7 +404,15 @@ function FirstPlanReveal({
 }) {
   const reduced = useReducedMotion();
   return (
-    <div className="kv-onboarding__reveal">
+    <div
+      className="kv-onboarding__reveal"
+      style={{
+        backgroundImage: `linear-gradient(rgba(9,10,11,0.72), rgba(9,10,11,0.94)), url(${BASE}brand/texture-obsidian.webp)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        borderRadius: "var(--kova-radius-card-lg)",
+      }}
+    >
       <motion.h1
         className="kv-title"
         initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12 }}

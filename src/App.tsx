@@ -20,7 +20,8 @@ function RequireOnboarding({ children }: { children: React.ReactElement }) {
   return children;
 }
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
   { path: "/onboarding", element: <OnboardingScreen /> },
   {
     path: "/",
@@ -42,7 +43,10 @@ const router = createBrowserRouter([
     ],
   },
   { path: "*", element: <Navigate to="/" replace /> },
-]);
+  ],
+  // Vite injects BASE_URL ("/" in dev, "/kova/" on GitHub Pages).
+  { basename: import.meta.env.BASE_URL },
+);
 
 export default function App() {
   const hydrate = useAppStore((s) => s.hydrate);

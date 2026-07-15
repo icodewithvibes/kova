@@ -184,8 +184,26 @@ textarea.kv-input {
 
 /* ---------- Text helpers ---------- */
 .kv-title {
+  font-family: var(--kova-font-display);
   font-size: var(--kova-size-title);
   font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+/* ---------- Wordmark ---------- */
+.kv-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kv-wordmark__text {
+  font-family: var(--kova-font-display);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--kova-metal);
+  font-size: 18px;
+  line-height: 1;
 }
 
 .kv-heading {

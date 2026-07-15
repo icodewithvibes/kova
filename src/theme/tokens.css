@@ -38,6 +38,8 @@
   /* Type scale (px) */
   --kova-font:
     "Inter Variable", "SF Pro Text", -apple-system, "Segoe UI", system-ui, sans-serif;
+  /* Display face: wordmark + screen titles. Money stays on Inter (tabular nums). */
+  --kova-font-display: "Space Grotesk Variable", var(--kova-font);
   --kova-size-display: 40px;
   --kova-size-title: 28px;
   --kova-size-heading: 21px;

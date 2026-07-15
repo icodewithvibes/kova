@@ -14,6 +14,7 @@ import {
   PenLine,
   X,
 } from "lucide-react";
+import { KovaWordmark } from "@/components/KovaMark";
 import "./AppShell.css";
 
 const TABS = [
@@ -39,7 +40,9 @@ export function AppShell() {
   return (
     <div className="kv-shell">
       <nav className="kv-sidenav" aria-label="Primary">
-        <div className="kv-sidenav__brand">kova</div>
+        <div className="kv-sidenav__brand">
+          <KovaWordmark />
+        </div>
         {TABS.map(({ to, label, icon: Icon }) => (
           <NavLink key={to} to={to} className="kv-sidenav__link">
             <Icon size={18} aria-hidden="true" />
